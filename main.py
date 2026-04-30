@@ -40,9 +40,9 @@ async def analyze(data: dict):
         }
     )
 
-    print("Supabase response:", response.text)
+    # print("Supabase response:", response.text)
 
-    print("Incoming:", data)
-    print("Result:", result)
+    # print("Incoming:", data)
+    # print("Result:", result)
 
     return {"status": "processed"}

@@ -2,28 +2,26 @@ import os
 import requests
 from datetime import datetime, timezone
 
-
-SUPABASE_URL = os.getenv("SUPASE_URL")
+SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+
 
 def publish_scheduled_articles():
     now = datetime.now(timezone.utc).isoformat()
 
-# Fetched scheduled articles
+    # Fetch scheduled articles
     response = requests.get(
         f"{SUPABASE_URL}/rest/v1/articles",
         headers={
             "apikey": SUPABASE_SERVICE_ROLE_KEY,
             "Authorization": f"Bearer {SUPABASE_SERVICE_ROLE_KEY}",
         },
-
         params={
-             "select": "id",
+            "select": "id",
             "status": "eq.scheduled",
             "scheduled_at": f"lte.{now}"
         }
     )
-
 
     data = response.json()
 

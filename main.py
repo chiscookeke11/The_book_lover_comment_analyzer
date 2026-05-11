@@ -9,11 +9,12 @@ load_dotenv()
 
 app = FastAPI()
 
+app.include_router(scheduler_router)
+
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
-CRON_SECRET = os.getenv("CRON_SECRET")
+CRON_SECRET = os.getenv("SCHEDULER_SECRET")
 
-app.include_router(scheduler_router)
 
 @app.get("/")
 def home():

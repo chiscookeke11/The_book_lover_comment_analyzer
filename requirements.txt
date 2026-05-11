@@ -3,3 +3,4 @@ uvicorn
 vaderSentiment
 requests
 python-dotenv
+supabase

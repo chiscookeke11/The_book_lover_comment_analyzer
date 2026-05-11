@@ -1,9 +1,9 @@
 from fastapi import FastAPI, Request
 from sentiment import analyze_sentiment
-from scheduler import publish_scheduled_articles
 import requests
 import os
 from dotenv import load_dotenv
+from publish_due_posts import router as scheduler_router
 
 load_dotenv()
 
@@ -13,7 +13,7 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 CRON_SECRET = os.getenv("CRON_SECRET")
 
-
+app.include_router(scheduler_router)
 
 @app.get("/")
 def home():
@@ -50,13 +50,3 @@ async def analyze(data: dict):
 
     return {"status": "processed"}
 
-
-@app.post("/publish-scheduled")
-async def publish_scheduled(request: Request):
-    auth_header = request.headers.get("authorization")
-
-    if auth_header != f"Bearer {CRON_SECRET}":
-        return {"error": "Unauthorized"}
-
-    result = publish_scheduled_articles()
-    return result
